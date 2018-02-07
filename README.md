@@ -14,7 +14,7 @@ For installation instructions, see ``INSTALL.rst.txt``.
 Developer information
 ---------------------
 
-If you would like to take part in SciPy development, take a look
+If you would like to take part in BioKeyPy development, take a look
 at the file ``CONTRIBUTING``.
 
 License information
