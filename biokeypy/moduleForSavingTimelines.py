@@ -3,7 +3,6 @@ import platform
 import os
 def saveTimeLine(pressTime, charTime, person,location):
 	
-	os.chdir("lib/")
 	
 	filename =  location + person + "A.txt"#GREEN computer
 	filename2 = location + person + "B.txt"#GREEN computer
