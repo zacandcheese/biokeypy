@@ -5,9 +5,24 @@ import statistics
 import string
 import platform
 
-
+def clearSummaries():
+	print("In clear summaries")
+	for file in glob.glob("Applying/Summary/*.txt"):
+		print(file)
+		os.remove(file)
+	print("Done clear summaries\n")
+def clearAll():
+	print("In clear all")
+	for file in glob.glob("Applying/*.txt"):
+		os.remove(file)
+	for file in glob.glob("Applying/Summary/*.txt"):
+		os.remove(file)
+	for file in glob.glob("Database/*.txt"):	
+		os.remove(file)
+	for file in glob.glob("Database/Summary/*.txt"):
+		os.remove(file)
 def makeTable(intDict, charDict, location, person):
-	
+
 	"""
 	list of all tuples found in what the person typed
 	# of appearances, median, variance
@@ -50,8 +65,7 @@ def makeTable(intDict, charDict, location, person):
 	
 
 def userSummary(fileName, location):
-	#os.chdir(location)
-	print("!!!")
+	#clearSummaries()
 	listOfTxtFiles = []
 	for file in glob.glob(location+"/*.txt"):#CHANGE
 		listOfTxtFiles.append(file)
@@ -71,3 +85,7 @@ def userSummary(fileName, location):
 		charDict = json.load(open(newListOfTxtFiles[num*2+1],'r'))
 		makeTable(intDict, charDict,(location+"/Summary/"), fileName)
 		print("\n")
+		
+if __name__== '__main__':
+	os.chdir("judgeslib/")
+	userSummary("Test","Applying/")
