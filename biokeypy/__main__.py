@@ -6,7 +6,7 @@
 
 """
 Author: Zachary Nowak and Matthew Nowak
-Date: 2/8/2018
+Date: 2/20/2018
 
 Program Description: This code can record the
 Press Time and Flight Time of a tuple as a user
@@ -18,32 +18,42 @@ __author__ = 'Zachary Nowak'
 """STANDARD LIBRARY IMPORTS"""
 import json
 import platform
+import os
 
 """LOCAL LIBRARY IMPORTS"""
-
 import moduleForSavingTimelines as ST
 import moduleForRecordingWithGUI as GUI
 import moduleForCreatingPasswordSentence as PS
 import moduleForDeconstructingTimelines as DT
 import moduleForAuthenticatingUsers as AU
 import moduleForFindingTuples as FT
+import moduleForGettingSentence as GS
 
 """FOLDER IMPORTS"""
 infile = "data/textGoldenBird.txt"# passage for training people.
-tupleList = ["ca","ener"]#ACCOUNT FOR EVERYBODY (MATTS SPREAD SHEET)MAKE A MODULE
+#tupleList = FT.allPeople()
+#tupleList = ["ca", "ow","ery"]
+location = ""
 
 if(platform.system() == "Darwin"):
 	name = raw_input("What is your name: ")#MAC
-	location = raw_input("What is the location: ")
+	while(not(location == "y" or location == "n")):
+		location = raw_input("Is this training data?(y/n) ")
    
 if(platform.system() == "Windows"):#WINDOWS
 	name = input("What is your name: ")
-	location = input("What is your location: ")
-
-if(location != ""):
+	while(not(location == "y" or location == "n")):
+		location = input("Is this training data?(y/n) ")
+#FIND TUPLES
+tupleList = FT.personalCombos(name)
+		
+if(location == "n"):
 	location = "Applying/"
-	passage = (PS.makeSentence(tupleList)).split(".")
-	
+	#passage = (PS.makeSentence(tupleList)).split(".")
+	try:
+		passage = GS.manuel(name).split(".")
+	except:
+		pass
 else:
 	location = "Database/"
 	passage = open(infile,"r").readlines()
@@ -51,8 +61,13 @@ else:
 
 """TYPE THE PASSAGE AND RECORD THE TIME LINE"""
 pressTimeLine,pressCharTimeLine,releaseTimeLine,releaseCharTimeLine = GUI.start_recording(passage)
+os.chdir("lib/")
 ST.saveTimeLine(pressTimeLine,pressCharTimeLine,name,location)
+DT.clearSummaries()#CHANGED
 DT.userSummary(name,location)
+
 if(location == "Applying/"):
-	AU.newData(tupleList)
+	#AU.newData(tupleList)
+	print("Now to verify")
+	AU.verify(tupleList,name)
 	
