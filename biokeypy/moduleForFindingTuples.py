@@ -14,10 +14,17 @@ def isComplete(line):
 		return False
 	return True
 
+def allPeople():
 
+	listOfTxtFiles = []
+	for file in glob.glob("lib/Database/Summary/*.txt"):
+		listOfTxtFiles.append(file)
+	tuples = newData(listOfTxtFiles)
+	print("Done with getting combination")
+	return(tuples)
 """START OF THE METHOD"""
 def newData(list):
-	
+	#os.chdir("lib/Database")
 	megaList = []
 	for file in list:
 		for line in open(file,"r").readlines():
@@ -80,11 +87,72 @@ def newData(list):
 			list.append(dict)
 	"""FINDS MAX AVG DIFF FROM ^^^"""	
 	newlist = sorted(list, key=lambda k: k['time'], reverse = True)
-	for i in range(3):
-		print("#", i+1, newlist[i]["name"], newlist[i]['time'], " " )
+	listTuple = []
+	for i in range(10):
+		#print("#", i+1, newlist[i]["name"], newlist[i]['time'], " " )
+		listTuple.append(newlist[i]["name"])
 	os.remove(filename)
+	return(listTuple)
 
+def getAvgTolerance(name):
+	None
+def personalCombos(name):
+	print(name)
+	list = []
+	for file in glob.glob("lib/Database/Summary/*.txt"):
+		list.append(file)
+	print("List of People: ", list)#FIXME
+	megaList = []
+	compareList = []
+	flag = True #print if name is not in list.
+	for file in list:
+		if(name in file):
+			for line in open(file,"r").readlines():
+				compareList.append(line)
+			flag = False 
+		else:
+			for line in open(file,"r").readlines():
+				megaList.append(line)
+	if(flag):
+		print("You are not in the system. Try again")
+		return
+	print("Finished making the megaList")
 	
+	#Check all the people for every single tuple in Zachary
+	#if not all have it then return
+	#rank the ones that are left by highest difference from the actual value.
+	mainList = []
+	for line in compareList:
+		#All of my tuples
+		compareToTuple = line.split(",")[0]
+		flag = False #Flag when everyone doesn't have it
+		numInstances = 0
+		listOfDifferences = []
+		for line2 in megaList:
+			tuple = line2.split(",")[0]
+			if(tuple == compareToTuple):
+				numInstances += 1
+				listOfDifferences.append(abs(float(line2.split(",")[3])-float(line.split(",")[3])))#One person minus the expected
+		if(numInstances<len(list)-1):
+			pass
+		else:
+			dict = {}
+			dict['name'] = compareToTuple
+			#dict['diff'] = statistics.median(listOfDifferences)
+			dict['diff'] = min(listOfDifferences)
+			mainList.append(dict)
+	newlist = sorted(mainList, key=lambda k: k['diff'], reverse = True)
+	returnList = []
+	counter = 0
+	for i in range(10):
+		if (len(newlist[i]['name'])<3):
+			pass
+		elif(counter<3):
+			counter += 1
+			print(newlist[i]['name']+": ", newlist[i]['diff'])
+			returnList.append(newlist[i]['name'])
+	return returnList
+			
 	
 """
 find the tuple for all .txt files
@@ -93,15 +161,17 @@ compare each of the text files
 print the tuple and variance
 """
 if __name__ == "__main__":
-	os.chdir("lib/Database")
-
+	#os.chdir("lib/Database")
+	"""
 	listOfTxtFiles = []
 	for file in glob.glob("Summary/*.txt"):
 		listOfTxtFiles.append(file)
 	#print(listOfTxtFiles)
 	what = []
-	for i in range(3):
+	for i in range(len(listOfTxtFiles)-1):
 		what.append(listOfTxtFiles[i+1])
 	print(what)
-	newData(what)
+	"""
+	#os.chdir("lib/")
+	personalCombos("Madeleine H")
 

@@ -43,7 +43,7 @@ def start_recording(passage):
 		if(e.keycode == 13 or e.keycode == 2359309):
 			if(i == len(passage)-1):
 				text.destroy()
-
+				root.quit()
 			else:
 				text.delete('1.0', END)
 				i += 1 #MAKES IT EVERY OTHER WITH TWO
@@ -70,10 +70,12 @@ def start_recording(passage):
 	
 	root = Tk()
 	text = Text(root)
-	text.config(font=("Times", 20))
-	text.insert(INSERT, passage[i].lower()+".\n")
+	
+	text.insert(INSERT, passage[i].lower()+".\n\n")
 	text.bind("<KeyPress>", keydown)
 	text.bind("<KeyRelease>",keyrelease)
+	text.config(font=("Courier", 35))
+	text.config(wrap = WORD)
 	text.pack()
 	
 	frame = Frame(root, width=100, height=100)
@@ -85,3 +87,6 @@ def start_recording(passage):
 	root.mainloop()
 
 	return(pressTimeLine,pressCharTimeLine,releaseTimeLine,releaseCharTimeLine)
+	
+if __name__ == '__main__':
+	start_recording("Hello")
