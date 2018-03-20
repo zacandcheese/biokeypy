@@ -1,3 +1,11 @@
+"""
+Author:
+Date:
+
+Program description:
+
+"""
+"""STANDARD LIBRARY IMPORTS"""
 import glob
 import os
 import statistics
