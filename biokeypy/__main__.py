@@ -11,6 +11,7 @@ Date: 2/20/2018
 Program Description: This code can record the
 Press Time and Flight Time of a tuple as a user
 types a passage and it saves a matrix to a file.
+Acknolwedgments to Nathan Chong 1natechong.github.io for consultation.
 """
 __version__ = '1.0'
 __author__ = 'Zachary Nowak'
